@@ -147,7 +147,26 @@ In case you would like to test a finantial dataset, [this codelab](https://codel
 Feature importance and confussion matrix are available in the **Evaluate section** of the Vertex AI console. Note that since features are normalized, explainability results are not very significtive.
 
 
-## Lab 4: BQML and explainability
+## Lab 5: Model monitor with Games dataset (tabular)
+
+This lab contains the same code [as this blog post](https://cloud.google.com/blog/topics/developers-practitioners/monitor-models-training-serving-skew-vertex-ai), which describes a Churn prediction model for game developers using Google Analytics 4 (GA4) and BigQuery ML coming from [this blog article by Minhaz Kazi and Polong Lin](https://cloud.google.com/blog/topics/developers-practitioners/churn-prediction-game-developers-using-google-analytics-4-ga4-and-bigquery-ml).
+
+**Vertex Model monitoring** provides the following capabilities:
+
+* For **online prediction**: (a) skew detection and (b) drift detection. (a) compares the training data with incoming prediction data. (b) looks for changes in the incoming prediction data over time, i.e., Where **train/serve skew** is comparing serving feature distributions with training feature distributions, **drift** is comparing serving feature distributions at time `t-1` with serving feature distributions at time `t`.  
+* For **batch prediction**: (a) skew detection -- i.e. compare batch prediction feature inputs with the feature values used during training.
+
+In both cases, model monitoring has a **minimum frequency of 1 hour**, which means if we want to trigger alerts or see some monitoring results from our (batch) predictions, you need  to wait >1h to see results.
+
+Python scripts needed to run a monitoring job and trigger alerts (run in this order)
+1. `import-deploy.py`: import and deploy a model that will be used for Model Monitoring.
+2. `monitor-create.py`: creates Model monitoring job. Note the input BigQuery table `DATASET_BQ_URI` must be in the same region. Otherwise, you need to create a copy of `bq://mco-mm.bqmlga4.train` in your region.
+3. `monitor-trigger.py`: trigger alerts in the Model monitoring job (it may take up to 1 hour).
+
+<img src="5-xai-and-monitor/alerts.png" alt="Alerts from Vertex AI Model monitoring" width="500"/>
+
+
+## Lab 6: BQML and explainability
 
 Dataset query:
 ```sql
@@ -188,25 +207,6 @@ FROM
  ML.EXPLAIN_FORECAST(MODEL auv_london_bike_bqml.trips_arima_model,
                      STRUCT(365 AS horizon, 0.9 AS confidence_level))
 ```
-
-
-## Lab 5: Model monitor with Games dataset (tabular)
-
-This lab contains the same code [as this blog post](https://cloud.google.com/blog/topics/developers-practitioners/monitor-models-training-serving-skew-vertex-ai), which describes a Churn prediction model for game developers using Google Analytics 4 (GA4) and BigQuery ML coming from [this blog article by Minhaz Kazi and Polong Lin](https://cloud.google.com/blog/topics/developers-practitioners/churn-prediction-game-developers-using-google-analytics-4-ga4-and-bigquery-ml).
-
-**Vertex Model monitoring** provides the following capabilities:
-
-* For **online prediction**: (a) skew detection and (b) drift detection. (a) compares the training data with incoming prediction data. (b) looks for changes in the incoming prediction data over time, i.e., Where **train/serve skew** is comparing serving feature distributions with training feature distributions, **drift** is comparing serving feature distributions at time `t-1` with serving feature distributions at time `t`.  
-* For **batch prediction**: (a) skew detection -- i.e. compare batch prediction feature inputs with the feature values used during training.
-
-In both cases, model monitoring has a **minimum frequency of 1 hour**, which means if we want to trigger alerts or see some monitoring results from our (batch) predictions, you need  to wait >1h to see results.
-
-Python scripts needed to run a monitoring job and trigger alerts (run in this order)
-1. `import-deploy.py`: import and deploy a model that will be used for Model Monitoring.
-2. `monitor-create.py`: creates Model monitoring job. Note the input BigQuery table `DATASET_BQ_URI` must be in the same region. Otherwise, you need to create a copy of `bq://mco-mm.bqmlga4.train` in your region.
-3. `monitor-trigger.py`: trigger alerts in the Model monitoring job (it may take up to 1 hour).
-
-<img src="5-xai-and-monitor/alerts.png" alt="Alerts from Vertex AI Model monitoring" width="500"/>
 
 
 ## References
