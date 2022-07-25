@@ -31,13 +31,14 @@ Output of batch prediction in GCS. Note results **may not be in order** and spli
 
 ## Lab 2: LIT with Kaggle happyDB dataset (NLP)
 
-This lab shows the [Kaggle happyDB dataset](https://www.kaggle.com/ritresearch/happydb). You can see how to create an AutoML NLP model in [this tutorial](https://cloud.google.com/natural-language/automl/docs/quickstart). The simplified dataset used in this lab is publicly available at GCS at `gs://cloud-ml-data/NL-classification/happiness.csv` and contains 7 labels. 
+This lab shows the [Kaggle happyDB dataset](https://www.kaggle.com/ritresearch/happydb). You can see how to create an AutoML NLP model in [this tutorial](https://cloud.google.com/natural-language/automl/docs/quickstart). The simplified dataset used in this lab is publicly available at GCS at `gs://cloud-ml-data/NL-classification/happiness.csv` and contains 7 labels (affection, bonding, achievement, nature, exercise, enjoy_the_moment, leisure)
 
 Steps:
 1. Check the happyDB dataset at [Kaggle page](https://www.kaggle.com/ritresearch/happydb), and show the AutoML NLP tutorial main page.
 2. Import the dataset in Vertex AI and train an AutoML text classification model. This will take time.
 3. Show a prediction from the UI console.
-4. After that, use LIT to show explainability by launching `predict_lit.py` within a Vertex Workbench. This is a multiclass classification model (NLP) for the happyness dataset. use the following test data:
+4. Install LIT widget with `pip3 install lit_nlp` 
+5. After that, use LIT to show explainability by launching `predict_lit.py` within a Vertex Workbench. This is a multiclass classification model (NLP) for the happyness dataset. use the following test data:
 ```csv
 text,label,docID
 I ran 4 kilometers at the park.,4,22588212
@@ -88,7 +89,8 @@ This lab uses a [mortgage dataset from ffiec.gov](https://www.ffiec.gov/hmda/hmd
 This is a binary classification model built **with XGBoost and trained on the mortgage dataset**. It predicts whether or not a mortgage application will be approved. The codelab is [here](https://codelabs.developers.google.com/vertex-xgb-wit), and a simpler notebook with a deployed XGBoost model can be found [here](https://cloud.google.com/ai-platform/prediction/docs/using-what-if-tool).
 
 Steps:
-1. Download the dataset with `gsutil cp 'gs://mortgage_dataset_files/mortgage-small.csv' .`.
+1. Install xgboost with `pip3 install xgboost==1.2.0` 
+1. Download the dataset with `gsutil cp gs://mortgage_dataset_files/mortgage-small.csv .`.
 2. Run `train_and_wit.py` within Vertex Workbench.
 
 Exploration ideas:
@@ -115,7 +117,7 @@ examples = [{'test': 'hi'}, {'test': 'bye'}]
 config_builder = WitConfigBuilder(examples)
 WitWidget(config_builder, height=800)
 ```
-<img src="3-wit/wit_basic.png" alt="Basic WIT" width="300"/>
+<img src="3-wit/wit_basic.png" alt="Basic WIT" width="200"/>
 
 
 ## Lab 4: Vertex Explainable AI with Boston housing dataset (tabular)
@@ -214,9 +216,9 @@ FROM
 [1] Notebook sample about Model monitoring: https://github.com/GoogleCloudPlatform/vertex-ai-samples/tree/master/notebooks/official/model_monitoring   
 [2] Notebook sample about Explainable AI: https://github.com/GoogleCloudPlatform/vertex-ai-samples/tree/master/notebooks/official/explainable_ai     
 [3] Google Cloud blog post: [Monitor models for training-serving skew with Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/monitor-models-training-serving-skew-vertex-ai)    
-[4] Google Cloud blog: [Why you need to explain machine learning models](https://cloud.google.com/blog/products/ai-machine-learning/why-you-need-to-explain-machine-learning-models)    
+[4] Google Cloud blog post: [Why you need to explain machine learning models](https://cloud.google.com/blog/products/ai-machine-learning/why-you-need-to-explain-machine-learning-models)    
 [5] Responsible AI practices: https://ai.google/responsibilities/responsible-ai-practices/    
 [6] Explainable AI whitepaper: https://storage.googleapis.com/cloud-ai-whitepapers/AI%20Explainability%20Whitepaper.pdf    
 [7] What-if Tool (WIT): https://pair-code.github.io/what-if-tool/   
 [8] Language Interpretability Tool (LIT): https://pair-code.github.io/lit/    
-[9] Google Cloud blog post: [Explaining machine learning models to business users using BigQueryML and Looker](https://cloud.google.com/blog/products/data-analytics/explainable-ai-using-bigquery-machine-learning-and-looker)    
+[9] Google Cloud blog post: [Explaining machine learning models to business users using BigQueryML and Looker](https://cloud.google.com/blog/products/data-analytics/explainable-ai-using-bigquery-machine-learning-and-looker)        

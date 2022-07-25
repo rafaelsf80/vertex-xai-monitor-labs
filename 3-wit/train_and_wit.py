@@ -1,6 +1,6 @@
 """ Train a XGB model and show WIT widget """
 
-""" You MUST run this in a notebook (Vertex Workbench managed notebook).
+""" IMPORTANT: You MUST run as a cell in a notebook (Vertex Workbench managed notebook).
 You can only render HTML (WitWidget) in a browser or notebook and not in a Python console/editor environment.
 It works in a browser, in Jupiter notebook, Jupyter Lab, etc."""
 
@@ -67,6 +67,7 @@ data.head()
 x,y = data.values,labels
 x_train,x_test,y_train,y_test = train_test_split(x,y)
 
+print("Please, wait, training takes 2-3 minutes")
 # Training
 model = xgb.XGBClassifier(
     objective='reg:logistic'
@@ -85,9 +86,15 @@ model.save_model('model.bst')
 num_wit_examples = 500
 test_examples = np.hstack((x_test[:num_wit_examples],y_test[:num_wit_examples].reshape(-1,1)))
 
+# create custom predict because xbg.predict_proba requires a numpy array and not a list
+def custom_predict(examples_to_infer):
+    model_ins = np.array(examples_to_infer)
+    preds = model.predict_proba(model_ins)
+    return preds
+
 config_builder = (WitConfigBuilder(test_examples.tolist(), data.columns.tolist() + ['mortgage_status'])
-  .set_custom_predict_fn(model.predict_proba)
+  .set_custom_predict_fn(custom_predict)
   .set_target_feature('mortgage_status')
   .set_label_vocab(['denied', 'approved']))
 a = WitWidget(config_builder, height=800)
-a.render() # only in a notebook
+a.render() # only works in a notebook

@@ -1,5 +1,9 @@
 """ Shows LIT for a trained AutoML classification mdoel """
 
+""" IMPORTANT: You MUST run as a cell in a notebook (Vertex Workbench managed notebook).
+You can only render HTML (LitWidget) in a browser or notebook and not in a Python console/editor environment.
+It works in a browser, in Jupiter notebook, Jupyter Lab, etc."""
+
 PROJECT_ID  = "argolis-rafaelsanchez-ml-dev"     # <---- CHANGE THIS
 REGION      = "europe-west4"                     # <---- CHANGE THIS
 ENDPOINT_ID = "5445749150979194880"              # <---- CHANGE THIS
@@ -38,7 +42,7 @@ class TestData(dataset.Dataset):
 # Get auth token for use in prediction requests
 #token = !gcloud auth print-access-token
 print('Update first the OAuth token at the code !!')
-token = 'ya29...'
+token = 'ya29[...]'   # <---- CHANGE THIS WITH OUTPUT FROM !gcloud auth print-access-token
 
 # Setup URL and headers for prediction request.
 url = f'https://{REGION}-aiplatform.googleapis.com/ui/projects/{PROJECT_ID}/locations/{REGION}/endpoints/{ENDPOINT_ID}:predict'

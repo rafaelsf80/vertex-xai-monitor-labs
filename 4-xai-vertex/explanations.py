@@ -1,4 +1,4 @@
-""" Train a Keras model with explainability with Vertex SDK """
+""" Train a Keras model with explainability in Vertex AI """
 
 MY_PROJECT = "argolis-rafaelsanchez-ml-dev"
 MY_STAGING_BUCKET = "gs://argolis-vertex-europewest4"  
@@ -31,8 +31,6 @@ model = job.run(
     accelerator_count=1,
     args=["--epochs=50", "--distribute=single"],
 )
-
-
 
 # Get info about the Custom Job
 print(
@@ -70,9 +68,16 @@ feature_names = [
      "lstat",
 ]
 
-explain_params = aiplatform.explain.ExplanationParameters(
-    {"sampled_shapley_attribution": {"path_count": 10}}
-)
+XAI = "shapley"
+if XAI == "shapley":
+    PARAMETERS = {"sampled_shapley_attribution": {"path_count": 10}}
+if XAI == "ig":
+    PARAMETERS = {"integrated_gradients_attribution": {"step_count": 50}}
+if XAI == "xrai":
+    PARAMETERS = {"xrai_attribution": {"step_count": 50}}
+
+explain_params = aiplatform.explain.ExplanationParameters(PARAMETERS)
+
 
 input_metadata = {
     "input_tensor_name": serving_input,
