@@ -1,3 +1,5 @@
+""" Batch prediction job for the ULB dataset """
+
 from google.cloud import aiplatform
 import logging
 

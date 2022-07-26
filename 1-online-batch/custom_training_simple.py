@@ -1,4 +1,5 @@
-# Custom training pipeline, with script located at 'script_custom_training.py"'
+""" Custom training pipeline, with script located at 'script_custom_training.py' """
+
 
 from google.cloud import aiplatform
 

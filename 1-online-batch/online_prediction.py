@@ -1,3 +1,5 @@
+""" Online prediction for the ULB dataset """
+
 from google.cloud import aiplatform
 
 endpoint = aiplatform.Endpoint(
